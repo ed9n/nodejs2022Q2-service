@@ -3,16 +3,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { v4 } from 'uuid';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from './user';
-import { dataBase } from 'src/user/data';
 
 @Injectable()
 export class UserService {
+  private arrayUsers: User[] = [];
+
   getAll() {
-    return dataBase;
+    return this.arrayUsers;
   }
 
   getById(id: string) {
-    return dataBase.find((el) => el.id === id);
+    return this.arrayUsers.find((el) => el.id === id);
   }
 
   create(createUserDto: CreateUserDto) {
@@ -25,13 +26,13 @@ export class UserService {
     user.createdAt = Math.floor(Date.now() / 1000);
     user.updatedAt = Math.floor(Date.now() / 1000);
 
-    dataBase.push(user);
+    this.arrayUsers.push(user);
 
     return user;
   }
 
   updatePassword(id: string, updatePasswordDto: UpdatePasswordDto) {
-    return dataBase.find((el) => {
+    return this.arrayUsers.find((el) => {
       if (el.id === id && el.password === updatePasswordDto.oldPassword) {
         el.version++;
         el.password = updatePasswordDto.newPassword;
@@ -42,12 +43,12 @@ export class UserService {
   }
 
   removeUser(id: string) {
-    const user = dataBase.find((el) => el.id === id);
+    const user = this.arrayUsers.find((el) => el.id === id);
 
-    const index = dataBase.indexOf(user);
+    const index = this.arrayUsers.indexOf(user);
 
     if (index !== -1) {
-      dataBase.splice(index, 1);
+      this.arrayUsers.splice(index, 1);
     }
   }
 }
