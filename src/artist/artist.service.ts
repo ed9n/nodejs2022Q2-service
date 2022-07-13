@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AlbumService } from 'src/album/album.service';
 import { v4 } from 'uuid';
 import { Artist } from './artist';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -6,7 +7,9 @@ import { UpdateArtistDto } from './dto/update-artist.dto';
 
 @Injectable()
 export class ArtistService {
-  private arrayArtists: Artist[] = [];
+  public arrayArtists: Artist[] = [];
+
+  constructor(private readonly albumService: AlbumService) {}
 
   getAll() {
     return this.arrayArtists;
@@ -22,7 +25,6 @@ export class ArtistService {
     artist.id = v4();
     artist.name = createArtistDto.name;
     artist.grammy = createArtistDto.grammy;
-
     this.arrayArtists.push(artist);
     return artist;
   }
@@ -39,6 +41,10 @@ export class ArtistService {
 
   remove(id: string) {
     const artist = this.arrayArtists.find((el) => el.id === id);
+
+    this.albumService.arrayAlbums.find((el) => {
+      return (el.artistId = null);
+    });
 
     const index = this.arrayArtists.indexOf(artist);
 
