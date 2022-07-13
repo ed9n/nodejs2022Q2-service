@@ -14,7 +14,8 @@ export class FavsService {
 
   favs = new Favs();
 
-  getAll() {
+  async getAll() {
+    console.log(this.favs);
     return this.favs;
   }
 
