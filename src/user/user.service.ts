@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { dataBase } from 'src/data';
 import { CreateUserDto } from './dto/create-user.dto';
 import { v4 } from 'uuid';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from './user';
+import { dataBase } from 'src/user/data';
 
 @Injectable()
 export class UserService {
