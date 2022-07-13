@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { TrackService } from 'src/track/track.service';
 import { v4 } from 'uuid';
 import { Album } from './album';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -7,6 +8,8 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 @Injectable()
 export class AlbumService {
   public arrayAlbums: Album[] = [];
+
+  constructor(private readonly trackService: TrackService) {}
 
   getAll() {
     return this.arrayAlbums.map((el) => {
@@ -46,6 +49,10 @@ export class AlbumService {
     const artist = this.arrayAlbums.find((el) => el.id === id);
 
     const index = this.arrayAlbums.indexOf(artist);
+
+    this.trackService.arrayTracks.find((el) => {
+      return (el.albumId = null);
+    });
 
     if (index !== -1) {
       this.arrayAlbums.splice(index, 1);
