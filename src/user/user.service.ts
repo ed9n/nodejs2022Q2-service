@@ -23,8 +23,8 @@ export class UserService {
     user.password = createUserDto.password;
     user.version = 1;
     user.id = v4();
-    user.createdAt = Math.floor(Date.now() / 1000);
-    user.updatedAt = Math.floor(Date.now() / 1000);
+    user.createdAt = Math.round(new Date().getTime());
+    user.updatedAt = Math.round(new Date().getTime());
 
     this.arrayUsers.push(user);
 
@@ -36,7 +36,7 @@ export class UserService {
       if (el.id === id && el.password === updatePasswordDto.oldPassword) {
         el.version++;
         el.password = updatePasswordDto.newPassword;
-        el.updatedAt = Math.floor(Date.now() / 1000);
+        el.updatedAt = Math.round(new Date().getTime());
         return el;
       }
     });
