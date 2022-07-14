@@ -15,20 +15,15 @@ export class FavsService {
   favs = new Favs();
 
   async getAll() {
-    console.log(this.favs);
     return this.favs;
   }
 
   getByidArtist(id: string) {
-    return this.artistService.arrayArtists.find((el) => el.id === id);
+    return this.artistService.getByid(id);
   }
 
   addArtist(id: string) {
-    const artist = this.artistService.arrayArtists.find((el) => {
-      if (el.id === id) {
-        return el;
-      }
-    });
+    const artist = this.artistService.getByid(id);
 
     this.favs.artists.push(artist);
 
@@ -46,15 +41,11 @@ export class FavsService {
   }
 
   getByidTrack(id: string) {
-    return this.trackService.arrayTracks.find((el) => el.id === id);
+    return this.trackService.getByid(id);
   }
 
   addTrack(id: string) {
-    const track = this.trackService.arrayTracks.find((el) => {
-      if (el.id === id) {
-        return el;
-      }
-    });
+    const track = this.trackService.getByid(id);
 
     this.favs.tracks.push(track);
 
@@ -72,14 +63,11 @@ export class FavsService {
   }
 
   getByidAlbum(id: string) {
-    return this.albumService.arrayAlbums.find((el) => el.id === id);
+    return this.albumService.getByid(id);
   }
+
   addAlbum(id: string) {
-    const album = this.albumService.arrayAlbums.find((el) => {
-      if (el.id === id) {
-        return el;
-      }
-    });
+    const album = this.albumService.getByid(id);
 
     this.favs.albums.push(album);
 
