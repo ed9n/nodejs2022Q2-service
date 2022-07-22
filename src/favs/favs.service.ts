@@ -47,7 +47,7 @@ export class FavsService {
   addTrack(id: string) {
     const track = this.trackService.getByid(id);
 
-    this.favs.tracks.push(track);
+    // this.favs.tracks.push(track);
 
     return track;
   }

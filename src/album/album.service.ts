@@ -50,9 +50,9 @@ export class AlbumService {
 
     const index = this.arrayAlbums.indexOf(artist);
 
-    this.trackService.arrayTracks.find((el) => {
-      return (el.albumId = null);
-    });
+    // this.trackService.arrayTracks.find((el) => {
+    //   return (el.albumId = null);
+    // });
 
     if (index !== -1) {
       this.arrayAlbums.splice(index, 1);

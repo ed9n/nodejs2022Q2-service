@@ -17,7 +17,7 @@ import { config } from './ormconfig';
     UserModule,
     // ArtistModule,
     // AlbumModule,
-    // TrackModule,
+    TrackModule,
     // FavsModule,
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.env' }),
     TypeOrmModule.forRoot(config),

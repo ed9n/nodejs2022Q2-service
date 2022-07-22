@@ -50,9 +50,9 @@ export class ArtistService {
       return (el.artistId = null);
     });
 
-    this.trackService.arrayTracks.find((el) => {
-      return (el.artistId = null);
-    });
+    // this.trackService.arrayTracks.find((el) => {
+    //   return (el.artistId = null);
+    // });
 
     const index = this.arrayArtists.indexOf(artist);
 
