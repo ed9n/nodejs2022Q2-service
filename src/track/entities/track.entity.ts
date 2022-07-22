@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, IsNull } from 'typeorm';
 
 @Entity('track')
 export class TrackEntity {
@@ -8,10 +8,10 @@ export class TrackEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   artistId: string | null; // refers to Artist
 
-  @Column()
+  @Column({ nullable: true, default: null })
   albumId: string | null; // refers to Album
 
   @Column()
