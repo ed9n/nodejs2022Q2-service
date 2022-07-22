@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, IsNull } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('track')
 export class TrackEntity {
