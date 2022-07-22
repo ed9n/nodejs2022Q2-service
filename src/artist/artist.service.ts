@@ -8,15 +8,12 @@ import { AlbumService } from 'src/album/album.service';
 import { TrackService } from 'src/track/track.service';
 import { Repository } from 'typeorm';
 import { v4, validate } from 'uuid';
-import { Artist } from './artist';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistEntity } from './entities/artist.entity';
 
 @Injectable()
 export class ArtistService {
-  // public arrayArtists: Artist[] = [];
-
   constructor(
     private readonly albumService: AlbumService,
     private readonly trackService: TrackService,
