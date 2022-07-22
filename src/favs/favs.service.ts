@@ -25,7 +25,7 @@ export class FavsService {
   addArtist(id: string) {
     const artist = this.artistService.getByid(id);
 
-    this.favs.artists.push(artist);
+    // this.favs.artists.push(artist);
 
     return artist;
   }

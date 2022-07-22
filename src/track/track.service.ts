@@ -14,7 +14,7 @@ import { TrackEntity } from './entities/track.entity';
 export class TrackService {
   constructor(
     @InjectRepository(TrackEntity)
-    private trackRepository: Repository<TrackEntity>,
+    public trackRepository: Repository<TrackEntity>,
   ) {}
 
   async getAll() {

@@ -15,7 +15,7 @@ import { config } from './ormconfig';
 @Module({
   imports: [
     UserModule,
-    // ArtistModule,
+    ArtistModule,
     // AlbumModule,
     TrackModule,
     // FavsModule,

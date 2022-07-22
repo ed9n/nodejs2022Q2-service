@@ -23,21 +23,23 @@ export class ArtistController {
   @Header('Accept', 'application/json')
   @Get()
   async getAll() {
-    return this.artistService.getAll();
+    return await this.artistService.getAll();
   }
 
   @Header('Accept', 'application/json')
   @Get(':id')
   async getById(@Param('id') id) {
-    const artist = this.artistService.getByid(id);
+    const artist = await this.artistService.getByid(id);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (artist === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return artist;
-    }
+    return artist;
+
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (artist === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // } else {
+    //   return artist;
+    // }
   }
 
   @Header('Accept', 'application/json')
@@ -49,29 +51,31 @@ export class ArtistController {
   @Header('Accept', 'application/json')
   @Put(':id')
   async update(@Body() updateArtistDto: UpdateArtistDto, @Param('id') id) {
-    const artistId = this.artistService.getByid(id);
-    const newArtist = this.artistService.update(id, updateArtistDto);
+    // const artistId = this.artistService.getByid(id);
+    const newArtist = await this.artistService.update(id, updateArtistDto);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (artistId === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return newArtist;
-    }
+    return newArtist;
+
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (artistId === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // } else {
+    //   return newArtist;
+    // }
   }
 
   @Header('Accept', 'application/json')
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id) {
-    const artist = this.artistService.getByid(id);
+    // const artist = this.artistService.getByid(id);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (artist === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    }
-    return this.artistService.remove(id);
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (artist === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // }
+    return await this.artistService.remove(id);
   }
 }
