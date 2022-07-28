@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { AlbumEntity } from 'src/album/entities/album.entity';
+import { ArtistEntity } from 'src/artist/entities/artist.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity('track')
 export class TrackEntity {
@@ -8,17 +17,28 @@ export class TrackEntity {
   @Column()
   name: string;
 
-  @Column({ nullable: true, default: null })
-  artistId: string | null; // refers to Artist
-
-  @Column({ nullable: true, default: null })
-  albumId: string | null; // refers to Album
-
   @Column()
-  duration: number; // integer number
+  duration: number;
 
-  toResponse() {
-    const { id, name, artistId, albumId, duration } = this;
-    return { id, name, artistId, albumId, duration };
-  }
+  @OneToOne(() => AlbumEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    cascade: ['insert', 'update', 'remove'],
+  })
+  @JoinColumn({ name: 'albumId' })
+  album: string;
+
+  @Column({ nullable: true })
+  albumId: string | null;
+
+  @OneToOne(() => ArtistEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+    cascade: ['insert', 'update', 'remove'],
+  })
+  @JoinColumn({ name: 'artistId' })
+  artist: string;
+
+  @Column({ nullable: true })
+  artistId: string | null;
 }

@@ -4,6 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AlbumService } from 'src/album/album.service';
+import { ArtistService } from 'src/artist/artist.service';
 import { Repository } from 'typeorm';
 import { v4, validate } from 'uuid';
 import { CreateTrackDto } from './dto/create-track.dto';
@@ -15,12 +17,16 @@ export class TrackService {
   constructor(
     @InjectRepository(TrackEntity)
     public trackRepository: Repository<TrackEntity>,
+    private readonly albumService: AlbumService,
+    private readonly artistService: ArtistService,
   ) {}
 
   async getAll() {
     const tracks = await this.trackRepository.find();
 
-    return tracks.map((track) => track.toResponse());
+    return tracks.map((track) => {
+      return track;
+    });
   }
 
   async getByid(id: string) {
@@ -33,20 +39,19 @@ export class TrackService {
     if (!track) {
       throw new NotFoundException(`User with id = ${id} was not found`);
     } else {
-      return track.toResponse();
+      return track;
     }
   }
 
   async create(createTrackDto: CreateTrackDto) {
     const createdTrack = this.trackRepository.create({
-      id: v4(),
       name: createTrackDto.name,
-      artistId: createTrackDto.artistId,
       albumId: createTrackDto.albumId,
+      artistId: createTrackDto.artistId,
       duration: createTrackDto.duration,
     });
 
-    return (await this.trackRepository.save(createdTrack)).toResponse();
+    return await this.trackRepository.save(createdTrack);
   }
 
   async update(id: string, updateTrackDto: UpdateTrackDto) {
@@ -65,7 +70,7 @@ export class TrackService {
       updateTrack.albumId = updateTrackDto.albumId;
       updateTrack.duration = updateTrackDto.duration;
 
-      return await (await this.trackRepository.save(updateTrack)).toResponse();
+      return await this.trackRepository.save(updateTrack);
     }
   }
 
