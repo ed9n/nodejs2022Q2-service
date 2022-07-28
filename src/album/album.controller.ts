@@ -22,57 +22,60 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Header('Accept', 'application/json')
+  @HttpCode(200)
   @Get()
   async getAll() {
-    return this.albumService.getAll();
+    return await this.albumService.getAll();
   }
 
   @Header('Accept', 'application/json')
   @Get(':id')
   async getById(@Param('id') id) {
-    const album = this.albumService.getByid(id);
-
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (album === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return album;
-    }
+    const album = await this.albumService.getByid(id);
+    return album;
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (album === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // } else {
+    //   return album;
+    // }
   }
 
   @Header('Accept', 'application/json')
   @Post()
   async create(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumService.create(createAlbumDto);
+    return await this.albumService.create(createAlbumDto);
   }
 
   @Header('Accept', 'application/json')
   @Put(':id')
   async update(@Body() updateAlbumDto: UpdateAlbumDto, @Param('id') id) {
-    const albumId = this.albumService.getByid(id);
-    const newAlbum = this.albumService.update(id, updateAlbumDto);
+    // const albumId = this.albumService.getByid(id);
+    const newAlbum = await this.albumService.update(id, updateAlbumDto);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (albumId === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return newAlbum;
-    }
+    return newAlbum;
+
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (albumId === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // } else {
+    //   return newAlbum;
+    // }
   }
 
   @Header('Accept', 'application/json')
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id) {
-    const album = this.albumService.getByid(id);
+    // const album = this.albumService.getByid(id);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (album === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    }
-    return this.albumService.remove(id);
+    // if (validate(id) === false) {
+    //   throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
+    // } else if (album === undefined) {
+    //   throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
+    // }
+    return await this.albumService.remove(id);
   }
 }
