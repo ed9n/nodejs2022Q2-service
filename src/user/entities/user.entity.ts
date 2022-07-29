@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
@@ -9,6 +10,7 @@ export class UserEntity {
   login: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
@@ -19,9 +21,4 @@ export class UserEntity {
 
   @Column('bigint')
   updatedAt: number;
-
-  toResponse() {
-    const { id, login, version, createdAt, updatedAt } = this;
-    return { id, login, version, createdAt, updatedAt };
-  }
 }

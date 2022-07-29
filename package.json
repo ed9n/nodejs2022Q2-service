@@ -21,7 +21,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "migration:create": "typeorm-ts-node-esm migration:create",
     "migration:generate": "typeorm-ts-node-esm migration:generate -d ./src/ormconfig.ts",
-    "migration:run": "typeorm-ts-node-esm migration:run -d ./src/ormconfig.ts",
+    "migration:run": "npm run build && typeorm-ts-node-esm migration:run -d ./src/ormconfig.ts",
     "migration:down": "typeorm-ts-node-esm migration:revert -d ./src/ormconfig.ts"
   },
   "dependencies": {

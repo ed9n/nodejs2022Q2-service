@@ -6,14 +6,11 @@ import {
   Get,
   Header,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { validate } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserService } from './user.service';
@@ -27,7 +24,7 @@ export class UserController {
   @Get()
   @Header('Content-Type', 'application/json')
   async getAllUsers() {
-    return this.userService.getAll();
+    return await this.userService.getAll();
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

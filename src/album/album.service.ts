@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArtistService } from 'src/artist/artist.service';
-// import { TrackService } from 'src/track/track.service';
 import { Repository } from 'typeorm';
 import { v4, validate } from 'uuid';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -17,15 +16,11 @@ export class AlbumService {
   constructor(
     @InjectRepository(AlbumEntity)
     public albumRepository: Repository<AlbumEntity>,
-    // private readonly trackService: TrackService,
     private readonly artistService: ArtistService,
   ) {}
 
   async getAll() {
     const albums = await this.albumRepository.find();
-    // const artist = await this.artistService.artistRepository.findOne({
-    //   where: { id: albums.artistId },
-    // });
     return albums.map((album) => {
       return album;
     });

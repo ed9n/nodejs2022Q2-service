@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumService } from 'src/album/album.service';
 import { ArtistService } from 'src/artist/artist.service';
 import { Repository } from 'typeorm';
-import { v4, validate } from 'uuid';
+import { validate } from 'uuid';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackEntity } from './entities/track.entity';

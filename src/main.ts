@@ -3,17 +3,16 @@ import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { connectionSource } from './ormconfig';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
-import { parse, Parser } from 'yaml';
+import { parse } from 'yaml';
 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
+  new DocumentBuilder()
     .setTitle('Nodejs2022Q2-service')
     .setDescription('The Nodejs2022Q2-service API description')
     .setVersion('1.0')

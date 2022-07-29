@@ -1,12 +1,9 @@
-// import { TrackEntity } from 'src/track/entities/track.entity';
 import { ArtistEntity } from 'src/artist/entities/artist.entity';
-import { TrackEntity } from 'src/track/entities/track.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  OneToMany,
   JoinColumn,
 } from 'typeorm';
 
@@ -21,17 +18,9 @@ export class AlbumEntity {
   @Column()
   year: number;
 
-  @OneToMany(() => TrackEntity, (track: TrackEntity) => track.album, {
-    nullable: true,
-    onDelete: 'SET NULL',
-    eager: true,
-  })
-  track: TrackEntity;
-
   @OneToOne(() => ArtistEntity, {
     nullable: true,
     onDelete: 'SET NULL',
-    // eager: true,
     cascade: ['insert', 'update', 'remove'],
   })
   @JoinColumn()

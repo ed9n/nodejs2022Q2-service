@@ -1,13 +1,6 @@
-// import { FavsEntity } from 'src/favs/entities';
 import { AlbumEntity } from 'src/album/entities/album.entity';
 import { TrackEntity } from 'src/track/entities/track.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('artist')
 export class ArtistEntity {

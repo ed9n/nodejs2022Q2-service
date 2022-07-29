@@ -20,8 +20,7 @@ export class UserService {
 
   async getAll() {
     const users = await this.userRepository.find();
-
-    return users.map((user) => user.toResponse());
+    return users.map((user) => user);
   }
 
   async getById(id: string) {
@@ -34,7 +33,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User with id = ${id} was not found`);
     } else {
-      return user.toResponse();
+      return user;
     }
   }
 
@@ -48,7 +47,7 @@ export class UserService {
       updatedAt: Math.round(new Date().getTime()),
     });
 
-    return (await this.userRepository.save(createdUser)).toResponse();
+    return await this.userRepository.save(createdUser);
   }
 
   async updatePassword(id: string, updatePasswordDto: UpdatePasswordDto) {
@@ -69,9 +68,7 @@ export class UserService {
       updatePassword.createdAt = Number(updatePassword.createdAt);
       updatePassword.updatedAt = Math.round(new Date().getTime());
 
-      return await (
-        await this.userRepository.save(updatePassword)
-      ).toResponse();
+      return await await this.userRepository.save(updatePassword);
     }
   }
 
