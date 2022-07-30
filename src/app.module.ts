@@ -6,7 +6,7 @@ import { TrackModule } from './track/track.module';
 import { FavsModule } from './favs/favs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { config } from './ormconfig';
+import { dataSource } from './ormconfig';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { config } from './ormconfig';
     TrackModule,
     FavsModule,
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.env' }),
-    TypeOrmModule.forRoot(config),
+    TypeOrmModule.forRoot(dataSource.options),
   ],
 })
 export class AppModule {}

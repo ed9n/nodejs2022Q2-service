@@ -1,6 +1,7 @@
 version: "3"
 services:
   node:
+    container_name: server
     build: .
     ports:
      - ${PORT}:${PORT}
@@ -9,6 +10,8 @@ services:
     environment:
      - PORT=${PORT}
     restart: always
+    networks: 
+      - postgres
   postgres: 
     build: ./database/
     ports: 
@@ -18,8 +21,8 @@ services:
      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
     restart: always
+    networks: 
+      - postgres
 networks:
-  default:
-    name: lib-net
-    external: true
-  
+  postgres:
+    driver: bridge
