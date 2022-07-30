@@ -17,7 +17,25 @@ git clone {repository URL}
 npm install
 ```
 
-## Running application
+## Running application with Docker
+
+1. npm run build
+2. Запустите докер
+3. docker-compose build
+4. docker-compose up
+5. docker exec server npm run migration:generate ./src/migrations/migrations
+6. docker exec server npm run migration:run 
+7. docker exec server rm -rf /app/src/migrations
+
+# npm run test - желательно 2 раза его запустить, так как в первый раз могут не все тесты пройти
+
+## Docker scan
+
+1. npm run dockerScan:app": "docker scan nodejs2022q2-service_node",
+2. npm run dockerScan:db": "docker scan nodejs2022q2-service_postgres"
+
+
+## Running local application
 
 ```
 npm start
@@ -34,7 +52,7 @@ After application running open new terminal and enter:
 To run all tests without authorization
 
 ```
-npm run test
+npm run test - желательно 2 раза его запустить, так как в первый раз могут не все тесты пройти
 ```
 
 To run only one of all test suites
