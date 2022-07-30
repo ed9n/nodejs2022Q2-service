@@ -26,7 +26,7 @@ npm install
 5. docker exec server npm run migration:generate ./src/migrations/migrations
 6. docker exec server npm run migration:run 
 7. docker exec server rm -rf /app/src/migrations
-npm run test - желательно 2 раза запустить, так как в первый раз могут не все тесты пройти
+- npm run test - желательно 2 раза запустить, так как в первый раз могут не все тесты пройти
 
 ## Docker scan
 
