@@ -1,56 +1,88 @@
-import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AlbumService } from 'src/album/album.service';
+import { ArtistService } from 'src/artist/artist.service';
+import { Repository } from 'typeorm';
+import { validate } from 'uuid';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { Track } from './track';
+import { TrackEntity } from './entities/track.entity';
 
 @Injectable()
 export class TrackService {
-  public arrayTracks: Track[] = [];
+  constructor(
+    @InjectRepository(TrackEntity)
+    public trackRepository: Repository<TrackEntity>,
+    private readonly albumService: AlbumService,
+    private readonly artistService: ArtistService,
+  ) {}
 
-  getAll() {
-    return this.arrayTracks.map((el) => {
-      return el;
+  async getAll() {
+    const tracks = await this.trackRepository.find();
+
+    return tracks.map((track) => {
+      return track;
     });
   }
 
-  getByid(id: string) {
-    return this.arrayTracks.find((el) => el.id === id);
+  async getByid(id: string) {
+    if (validate(id) === false) {
+      throw new BadRequestException(`Is not uuid`);
+    }
+
+    const track = await this.trackRepository.findOne({ where: { id: id } });
+
+    if (!track) {
+      throw new NotFoundException(`User with id = ${id} was not found`);
+    } else {
+      return track;
+    }
   }
 
-  create(createTrackDto: CreateTrackDto) {
-    const track = new Track();
-
-    track.id = v4();
-    track.name = createTrackDto.name;
-    track.artistId = createTrackDto.artistId;
-    track.albumId = createTrackDto.albumId;
-    track.duration = createTrackDto.duration;
-
-    this.arrayTracks.push(track);
-    return track;
-  }
-
-  update(id: string, updateTrackDto: UpdateTrackDto) {
-    return this.arrayTracks.find((el) => {
-      if (el.id === id) {
-        el.name = updateTrackDto.name;
-        el.artistId = updateTrackDto.artistId;
-        el.albumId = updateTrackDto.albumId;
-        el.duration = updateTrackDto.duration;
-
-        return el;
-      }
+  async create(createTrackDto: CreateTrackDto) {
+    const createdTrack = this.trackRepository.create({
+      name: createTrackDto.name,
+      albumId: createTrackDto.albumId,
+      artistId: createTrackDto.artistId,
+      duration: createTrackDto.duration,
     });
+
+    return await this.trackRepository.save(createdTrack);
   }
 
-  remove(id: string) {
-    const artist = this.arrayTracks.find((el) => el.id === id);
+  async update(id: string, updateTrackDto: UpdateTrackDto) {
+    if (validate(id) === false) {
+      throw new BadRequestException(`Is not uuid`);
+    }
+    const updateTrack = await this.trackRepository.findOne({
+      where: { id: id },
+    });
 
-    const index = this.arrayTracks.indexOf(artist);
+    if (!updateTrack) {
+      throw new NotFoundException(`User with id = ${id} was not found`);
+    } else {
+      updateTrack.name = updateTrackDto.name;
+      updateTrack.artistId = updateTrackDto.artistId;
+      updateTrack.albumId = updateTrackDto.albumId;
+      updateTrack.duration = updateTrackDto.duration;
 
-    if (index !== -1) {
-      this.arrayTracks.splice(index, 1);
+      return await this.trackRepository.save(updateTrack);
+    }
+  }
+
+  async remove(id: string) {
+    if (validate(id) === false) {
+      throw new BadRequestException(`Is not uuid`);
+    }
+
+    const result = await this.trackRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id = ${id} was not found`);
     }
   }
 }

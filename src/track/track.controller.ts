@@ -5,13 +5,10 @@ import {
   Get,
   Header,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
-import { validate } from 'uuid';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackService } from './track.service';
@@ -29,15 +26,9 @@ export class TrackController {
   @Header('Accept', 'application/json')
   @Get(':id')
   async getById(@Param('id') id) {
-    const track = this.trackService.getByid(id);
+    const track = await this.trackService.getByid(id);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (track === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return track;
-    }
+    return track;
   }
 
   @Header('Accept', 'application/json')
@@ -49,29 +40,15 @@ export class TrackController {
   @Header('Accept', 'application/json')
   @Put(':id')
   async update(@Body() updateTrackDto: UpdateTrackDto, @Param('id') id) {
-    const trackId = this.trackService.getByid(id);
-    const newTrack = this.trackService.update(id, updateTrackDto);
+    const newTrack = await this.trackService.update(id, updateTrackDto);
 
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (trackId === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    } else {
-      return newTrack;
-    }
+    return newTrack;
   }
 
   @Header('Accept', 'application/json')
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id) {
-    const track = this.trackService.getByid(id);
-
-    if (validate(id) === false) {
-      throw new HttpException('Is not uuid', HttpStatus.BAD_REQUEST);
-    } else if (track === undefined) {
-      throw new HttpException('ID not found', HttpStatus.NOT_FOUND);
-    }
-    return this.trackService.remove(id);
+    return await this.trackService.remove(id);
   }
 }
