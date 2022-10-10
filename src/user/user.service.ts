@@ -10,6 +10,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -38,10 +39,12 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
+    const hashPass = await bcrypt.hash(createUserDto.password, 10);
+
     const createdUser = this.userRepository.create({
       id: v4(),
       login: createUserDto.login,
-      password: createUserDto.password,
+      password: hashPass,
       version: 1,
       createdAt: Math.round(new Date().getTime()),
       updatedAt: Math.round(new Date().getTime()),
@@ -51,6 +54,13 @@ export class UserService {
   }
 
   async updatePassword(id: string, updatePasswordDto: UpdatePasswordDto) {
+    const user = await this.getById(id);
+
+    const pass = bcrypt.compareSync(
+      updatePasswordDto.oldPassword,
+      user.password,
+    );
+
     if (validate(id) === false) {
       throw new BadRequestException(`Is not uuid`);
     }
@@ -60,7 +70,7 @@ export class UserService {
 
     if (!updatePassword) {
       throw new NotFoundException(`User with id = ${id} was not found`);
-    } else if (updatePassword.password !== updatePasswordDto.oldPassword) {
+    } else if (!pass) {
       throw new ForbiddenException('Old passowrd is wrong');
     } else {
       updatePassword.password = updatePasswordDto.newPassword;
@@ -68,7 +78,7 @@ export class UserService {
       updatePassword.createdAt = Number(updatePassword.createdAt);
       updatePassword.updatedAt = Math.round(new Date().getTime());
 
-      return await await this.userRepository.save(updatePassword);
+      return await this.userRepository.save(updatePassword);
     }
   }
 

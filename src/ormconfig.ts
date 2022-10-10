@@ -12,7 +12,10 @@ export const dataSource = new DataSource({
   database: process.env.POSTGRES_DATABASE as string,
   synchronize: false,
   entities: ['dist/**/entities/*.entity.js'],
-  migrations: ['src/migrations/*.ts'],
+  migrations: [
+    __dirname + '/migrations/**/*.ts',
+    __dirname + '/migrations/**/*.js',
+  ],
 });
 
 dataSource.initialize();
