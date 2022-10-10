@@ -27,7 +27,7 @@ npm install
 6. docker exec server npm run migration:run 
 7. docker exec server rm -rf /app/src/migrations
 
-# npm run test:auth - желательно несколько раза его запустить, так как в первый раз могут не все тесты пройти, потому что тесты впервый раз могут долго прогружаются.
+# npm run test:auth
 
 ## Docker scan
 
@@ -52,7 +52,7 @@ After application running open new terminal and enter:
 To run all tests without authorization
 
 ```
-npm run test - желательно 2 раза его запустить, так как в первый раз могут не все тесты пройти
+npm run test
 ```
 
 To run only one of all test suites
